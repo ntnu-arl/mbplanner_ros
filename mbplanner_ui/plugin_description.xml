@@ -1,0 +1,9 @@
+<library path="lib/libmbplanner_ui">
+  <class name="mbplanner_ui/MbPlanner Control"
+         type="mbplanner_ui::mbplanner_panel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget for control of mbplanner.
+    </description>
+  </class>
+</library>

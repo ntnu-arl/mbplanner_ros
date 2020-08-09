@@ -1,7 +1,7 @@
 # mbplanner_ros
 
 ## Install and run:
-- Follow the instructions in [mbplanner_ws](https://github.com/MihirDharmadhikari/mbplanner_ws) for installation.
+- Follow the instructions in [mbplanner_ws](https://github.com/unr-arl/mbplanner_ws.git) for installation.
 - Launch the planner:
 ```bash
 roslaunch mbplanner mbplanner_m100_sim.launch
@@ -15,7 +15,7 @@ Stop planner: ```rosservice call /planner_control_interface/std_srvs/stop ```
 ```xml
 <arg name="world_file" default="$(find planner_gazebo_sim)/worlds/pittsburgh_mine.world"/>
 ```  
-We also support the environments published by DARPA for the Subterranean Challenge - Cave circuit. In order to use those environments, the models and worlds need to be downloaded that have not been included in this repository. The package for the same can be downloaded from [here](https://github.com/MihirDharmadhikari/cave_model).
+We also support the environments published by DARPA for the Subterranean Challenge - Cave circuit. In order to use those environments, the models and worlds need to be downloaded that have not been included in this repository. The package for the same can be downloaded from [here](https://github.com/unr-arl/subt_cave_sim.git).
 Compile this package: 
 ```bash
 catkin build cave_models
@@ -73,3 +73,8 @@ If you use this work in your research, please cite the following publication.
   organization={IEEE}
 }
 ```
+
+Please contact us for any question:
+* [Mihir Dharmadhikari](mailto:mihir.dharmadhikari@gmail.com)
+* [Tung Dang](mailto:tung.dang@nevada.unr.edu)
+* [Kostas Alexis](mailto:kalexis@unr.edu)

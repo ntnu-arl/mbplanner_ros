@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="rviz" type="rviz" name="mbplanner_ui" output="screen" args="-d $(find mbplanner_ui)/config/mbplanner.rviz">
+    <param name="start_planner_service_name" value="/mbplanner_start"/>
+    <param name="stop_planner_service_name"  value="/mbplanner_stop"/>
+    <param name="homing_service_name"  value="/mbplanner_homing"/>
+    <param name="global_planner_service_name"  value="/mbplanner_global"/>
+  </node>
+</launch>
