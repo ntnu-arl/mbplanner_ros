@@ -18,7 +18,7 @@ Stop planner: ```rosservice call /planner_control_interface/std_srvs/stop ```
 We also support the environments published by DARPA for the Subterranean Challenge - Cave circuit. In order to use those environments, the models and worlds need to be downloaded that have not been included in this repository. The package for the same can be downloaded from [here](https://github.com/unr-arl/subt_cave_sim.git).
 Compile this package: 
 ```bash
-catkin build cave_models
+catkin build subt_cave_sim
 ```
 Use the ```mbplanner/launch/mbplanner_m100_sim_cave.launch``` file:
 ```bash
@@ -48,6 +48,11 @@ To compile with Octomap, set the flag USE_OCTOMAP to 1:
 catkin build -DCMAKE_BUILD_TYPE=Release -DUSE_OCTOMAP=1 mbplanner
 ```
 Also change the config to Octomap in the ```mbplanner/launch/mbplanner_m100_sim.launch``` file
+Replace: 
+```xml
+<arg name="map_config_file" default="$(arg voxblox_config_file)"/>
+```
+With:
 ```xml
 <arg name="map_config_file" default="$(arg octomap_config_file)"/>
 ```
