@@ -15,12 +15,11 @@ Stop planner: ```rosservice call /planner_control_interface/std_srvs/stop ```
 ```xml
 <arg name="world_file" default="$(find planner_gazebo_sim)/worlds/pittsburgh_mine.world"/>
 ```  
-We also support the environments published by DARPA for the Subterranean Challenge - Cave circuit. In order to use those environments, the models and worlds need to be downloaded that have not been included in this repository. The package for the same can be downloaded from [here](https://github.com/unr-arl/subt_cave_sim.git).
-Compile this package: 
+We also support the environments published by DARPA for the Subterranean Challenge - Cave Circuit. In order to use those environments, the models and worlds need to be downloaded from another package: [subt_cave_sim](https://github.com/unr-arl/subt_cave_sim.git). To compile this package: 
 ```bash
 catkin build subt_cave_sim
 ```
-Use the ```mbplanner/launch/mbplanner_m100_sim_cave.launch``` file:
+And use the ```mbplanner/launch/mbplanner_m100_sim_cave.launch``` file:
 ```bash
 roslaunch mbplanner mbplanner_m100_sim_cave.launch
 ```
@@ -28,7 +27,7 @@ roslaunch mbplanner mbplanner_m100_sim_cave.launch
 ### Select the mapping framework
 The planner supports two mapping frameworks: Voxblox and Octomap
 #### Voxblox
-By default, the planner is compiled with Voxblox. Voxblox can be used with two mapping modes, Euclidean Signed Distance Fields (ESDF) and Truncated Signed Distance Fields (TSDF). By default TSDF is used in which the distance(to the closest occiped voxel) of a voxel is truncated to a fixed value.  
+By default, the planner is compiled with Voxblox. Voxblox can be used with two mapping modes, Euclidean Signed Distance Fields (ESDF) and Truncated Signed Distance Fields (TSDF). By default TSDF is used in which the distance (to the closest occupied voxel) of a voxel is truncated to a fixed value.  
 In order to switch to ESDF make the following changes:  
 In the file ``` planner_common/include/planner_common/map_manager_voxblox_impl.h``` comment the following line:  
 ```C++
@@ -55,13 +54,6 @@ Replace:
 With:
 ```xml
 <arg name="map_config_file" default="$(arg octomap_config_file)"/>
-```
-
-## Formatting:
-Whenever a change is made format the code using clang-format with the .clang-format file provided
-Format all the .cpp, .hpp, .c, .h files
-```bash
-find . -regex '.*\.\(cpp\|hpp\|c\|h\)' -exec clang-format -style=file -i {} \;
 ```
 
 ## Tutorial:
