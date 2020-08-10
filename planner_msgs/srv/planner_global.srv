@@ -1,0 +1,8 @@
+# Request the planner to run and return a path
+# Since the global planner solution is almost deterministic,
+# we could choose which frontier (using its id) from the best one to execute.
+# By default, id 0 means selecting the best one.
+int32 id
+-------
+# Return best path.
+geometry_msgs/Pose[] path

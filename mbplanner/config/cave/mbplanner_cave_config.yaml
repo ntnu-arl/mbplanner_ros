@@ -1,0 +1,118 @@
+# Configurations for the exploration pipeline.
+# For more details, please check comments in the params.h file.
+#-------------------------------------------------------------------------------
+# ROBOT CONFIGURATION
+# Mine config: 2x2x0.75 + overshoot: 0.35m
+# for the mine: 1.8-2.0
+#-------------------------------------------------------------------------------
+RobotParams:
+  type:               kAerialRobot
+  size:               [1.4, 1.4, 0.8]
+  size_extension_min: [0.0, 0.0, 0.0] # minimum extension allowed to operate.
+  size_extension:     [0.0, 0.0, 0.0]
+  center_offset:      [0.0, 0.0, 0.0]
+  relax_ratio:        0.5
+  bound_mode:         kExtendedBound
+  safety_extension:   [0.5, 0.5, 0.5]
+#-------------------------------------------------------------------------------
+# MBPLANNER CONFIGURATION
+# exp_sensor_list: sensors used to compute exploration gain.
+#-------------------------------------------------------------------------------
+MBParams:
+  use_angles: 1  # When this is 1, ax is the direction of acceleration (0-2pi) in the x-y plane, ay is the magnitude
+  ax_min: 0
+  ay_min: 0.0
+  az_min: -0.3
+  ax_max: 6.28
+  ay_max: 2.0
+  az_max: 0.3
+  v_max: 2.0
+  
+  # Tree generation parameters:
+  use_current_state: 0
+  exp_dir: 0.0
+  t: 1.5
+  dt: 0.25
+  x_bias: 1
+  a_cone: 1.5
+  iterations: 7
+  branch_limit: 4
+  sample_steps: 15
+  min_edge_length: 3
+  second_lvl_samples: 0
+  later_iter_samples: 2 # Open space: 2
+  max_sampling_iters: 90
+  min_vertex_separation: 0.25
+
+  obst_steps: 20
+  forward_angle: 180.0
+  safe_path_samples: 8
+  extrapolation_dist: 15
+  clustering: 1
+  kdtree_range: 2.0
+  safety_gain: 0.0
+  curvature_penalty: 0.0
+  path_length_penalty: 0.0
+  path_direction_penalty: 0.0
+  similarity_dist: 0.9
+  free_voxel_gain:  1.0 #prefer directions towards more free voxels in case of the dead-end
+  unknown_voxel_gain: 50.0
+  occupied_voxel_gain: 0.0
+  exp_sensor_list: ["VLP16"]
+
+  yaw_enable: 1
+  min_path_length: 0.15
+  max_traverse_length: 10.0
+  safety_distance: 4.0
+  safety_aware_enable: true
+#-------------------------------------------------------------------------------
+# SENSOR CONFIGURATION
+#  sensor_list: Define a set of sensors relevant to the exploration task.
+#  rotations: ZYX order;
+#             all follows ROS convention (X-forward, Y-left, Z-Up).
+#-------------------------------------------------------------------------------
+SensorParams:
+  sensor_list:      ["VLP16"]
+  VLP16:
+    type:           kLidar
+    max_range:      20.0
+    center_offset:  [0.0, 0.0, 0.0]
+    rotations:      [0.0, 0.0, 0.0]
+    fov:            [rad(2*pi), rad(pi/18)]
+    resolution:     [rad(5.0*pi/180), rad(3.0*pi/180)]
+#-------------------------------------------------------------------------------
+# SAMPLING SPACE CONFIGURATION
+#   Global: Strictly defined bounds for the whole environment.
+#   Local: Define a local space wrt current robot state for planning.
+#-------------------------------------------------------------------------------
+BoundedSpaceParams:
+  Global:
+    type:           kCuboid
+    min_val:        [10.0, -300.0, -20.0]
+    max_val:        [520, 300.0, 20.0]
+  Local:
+    type:           kCuboid
+    min_val:        [-20.0, -20.0, -4.0]
+    max_val:        [20.0, 20.0, 4.0]
+    min_extension:  [-20.0, -20.0, -3.0]
+    max_extension:  [20.0, 20.0, 3.0]
+#-------------------------------------------------------------------------------
+# SAMPLING POLICY CONFIGURATION
+#   Sample space limited to 4 states: X, Y, Z, and Heading
+#-------------------------------------------------------------------------------
+RandomSamplerParams:
+  SamplerForExploration:
+    X:
+      pdf_type:       kUniform
+      sample_mode:    kLocal
+    Y:
+      pdf_type:       kUniform
+      sample_mode:    kLocal
+    Z:
+      pdf_type:       kUniform
+      sample_mode:    kLocal
+    Heading:
+      pdf_type:       kUniform
+      sample_mode:    kManual
+      min_val:        rad(-pi)
+      max_val:        rad(pi)

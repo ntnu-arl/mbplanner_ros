@@ -1,0 +1,13 @@
+Header header
+
+float32 graph_build_time
+float32 exp_gain_time
+float32 total_time
+float32 path_length
+
+float32 find_frontier
+float32 time_search_path_to_frontier
+
+float32 map_resolution
+int32 number_free_voxels
+int32 number_occupied_voxels
