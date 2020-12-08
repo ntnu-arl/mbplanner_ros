@@ -60,7 +60,7 @@ class MBTree {
                                   // MBTree object
   bool evaluateGraph();           // Find the exploration gains.
   void computeExplorationGain();  // Compute volumetric gain part
-  VolumetricGain computeIndividualExplorationGain(StateNode& leaf);
+  VolumetricGain computeIndividualExplorationGain(StateNode& leaf, bool vis_en);
   void computeVolumetricGainRayModel(
       StateVec& state, VolumetricGain& vgain,
       bool);  // Volumetric gain calculation using raycasting model

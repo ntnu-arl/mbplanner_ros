@@ -312,6 +312,13 @@ class StateNode  // State in the Tree
     } else
       return false;
   }
+  StateVec state_vec() {
+    StateVec sv(this->position(0),
+                this->position(1),
+                this->position(2),
+                this->yaw);
+    return sv;
+  }
 };
 
 }  // namespace explorer

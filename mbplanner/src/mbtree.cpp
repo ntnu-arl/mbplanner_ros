@@ -1142,7 +1142,7 @@ void MBTree::computeExplorationGain() {
   stat_->compute_exp_gain_time = GET_ELAPSED_TIME(tim);
 }
 
-VolumetricGain MBTree::computeIndividualExplorationGain(StateNode& leaf) {
+VolumetricGain MBTree::computeIndividualExplorationGain(StateNode& leaf, bool vis_en) {
   const int id_viz = 20;  // random vertex to show volumetric gain.
 
   StateVec v_state;
@@ -1152,7 +1152,7 @@ VolumetricGain MBTree::computeIndividualExplorationGain(StateNode& leaf) {
   v_state(1) = leaf.position(1);
   v_state(2) = leaf.position(2);
   v_state(3) = leaf.yaw;
-  computeVolumetricGainRayModel(v_state, v_gain, false);
+  computeVolumetricGainRayModel(v_state, v_gain, vis_en);
   return v_gain;
 }
 
@@ -1257,6 +1257,11 @@ void MBTree::computeVolumetricGainRayModel(StateVec& state, VolumetricGain& vgai
       }
     }
 
+    if (vis_en) {
+
+      visualizer_->visualizeRays(state, multiray_endpoints);
+    }
+
     gain_log.push_back(
         std::make_tuple(num_unknown_voxels, num_free_voxels, num_occupied_voxels));
     // Check if it is a potential frontier.
@@ -1287,6 +1292,7 @@ std::vector<StateNode*> MBTree::findLeafVertices() {
   std::vector<StateNode *> all_nodes, final_all_nodes;
   std::queue<StateNode*> q;  // Create a queue
   q.push(tree_root_);
+  bool visualize = true;
   while (!q.empty()) {
     int n = q.size();
     // If this node has children
@@ -1294,7 +1300,12 @@ std::vector<StateNode*> MBTree::findLeafVertices() {
       StateNode* p = q.front();
       all_nodes.push_back(p);
       if (q.front()->children.size() == 0) {
-        p->vol_gain = computeIndividualExplorationGain((*p));  // No clustering
+        if(visualize) {
+          p->vol_gain = computeIndividualExplorationGain((*p), true);  // No clustering
+          visualize = false;
+        }
+        else
+          p->vol_gain = computeIndividualExplorationGain((*p), false);  // No clustering
         if (p->vol_gain.is_frontier) p->type = VertexType::kFrontier;
         leaves.push_back(p);
         all_nodes.pop_back();
@@ -1331,7 +1342,7 @@ std::vector<StateNode*> MBTree::findLeafVertices() {
     StateNode* s_test;
     s_test = (StateNode*)kd_res_item_data(nearest);
 
-    VolumetricGain v_gain_req = computeIndividualExplorationGain((*s_test));
+    VolumetricGain v_gain_req = computeIndividualExplorationGain((*s_test), false);
     double required_gain = v_gain_req.gain;
     if (required_gain >= prev_gain)
       higher = true;
