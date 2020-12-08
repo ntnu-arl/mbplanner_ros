@@ -874,33 +874,33 @@ void Visualization::visualizeSensorFOV(StateVec &state, SensorParams &sensor_par
         p1.y = state[1];
         p1.z = state[2];
         geometry_msgs::Point p2;
-        p2.x = state[0] + edge_points_w[j][0];
-        p2.y = state[1] + edge_points_w[j][1];
-        p2.z = state[2] + edge_points_w[j][2];
+        p2.x = edge_points_w[j][0];
+        p2.y = edge_points_w[j][1];
+        p2.z = edge_points_w[j][2];
         line_marker.points.push_back(p1);
         line_marker.points.push_back(p2);
       }
       for (int j = 0; j < 3; ++j) {
         geometry_msgs::Point p1;
-        p1.x = state[0] + edge_points_w[j][0];
-        p1.y = state[1] + edge_points_w[j][1];
-        p1.z = state[2] + edge_points_w[j][2];
+        p1.x = edge_points_w[j][0];
+        p1.y = edge_points_w[j][1];
+        p1.z = edge_points_w[j][2];
         geometry_msgs::Point p2;
-        p2.x = state[0] + edge_points_w[j + 1][0];
-        p2.y = state[1] + edge_points_w[j + 1][1];
-        p2.z = state[2] + edge_points_w[j + 1][2];
+        p2.x = edge_points_w[j + 1][0];
+        p2.y = edge_points_w[j + 1][1];
+        p2.z = edge_points_w[j + 1][2];
         line_marker.points.push_back(p1);
         line_marker.points.push_back(p2);
       }
       {
         geometry_msgs::Point p1;
-        p1.x = state[0] + edge_points_w[3][0];
-        p1.y = state[1] + edge_points_w[3][1];
-        p1.z = state[2] + edge_points_w[3][2];
+        p1.x = edge_points_w[3][0];
+        p1.y = edge_points_w[3][1];
+        p1.z = edge_points_w[3][2];
         geometry_msgs::Point p2;
-        p2.x = state[0] + edge_points_w[0][0];
-        p2.y = state[1] + edge_points_w[0][1];
-        p2.z = state[2] + edge_points_w[0][2];
+        p2.x = edge_points_w[0][0];
+        p2.y = edge_points_w[0][1];
+        p2.z = edge_points_w[0][2];
         line_marker.points.push_back(p1);
         line_marker.points.push_back(p2);
       }

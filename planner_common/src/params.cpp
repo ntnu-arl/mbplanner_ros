@@ -103,6 +103,26 @@ bool SensorParamsBase::loadParams(std::string ns) {
     // Compute correct points based on the sensor range.
     edge_points = max_range * edge_points;
     edge_points_B = rot_B2S * edge_points;
+    // Frustum endpoints in (S) for gain calculation.
+    frustum_endpoints.clear();
+    frustum_endpoints_B.clear();
+    double h_lim_2 = fov[0] / 2;
+    double v_lim_2 = fov[1] / 2;
+    for (double dv = -v_lim_2; dv <= v_lim_2; dv += resolution[1]) {
+      for (double dh = -h_lim_2; dh <= h_lim_2; dh += resolution[0]) {
+        double x = max_range * cos(dh);
+        double y = max_range * sin(dh);
+        double z = max_range * sin(dv);
+        Eigen::Vector3d ep = Eigen::Vector3d(x, y, z);
+        frustum_endpoints.push_back(ep);
+        Eigen::Vector3d ep_B = rot_B2S * ep + center_offset;
+        frustum_endpoints_B.push_back(ep_B);
+      }
+    }
+    ROS_INFO(
+        "Computed multiray_endpoints for volumetric gain [kCamera]: [%d] "
+        "points.",
+        frustum_endpoints_B.size());
   } else if (type == SensorType::kLidar) {
     // Frustum endpoints in (S) for gain calculation.
     frustum_endpoints.clear();
