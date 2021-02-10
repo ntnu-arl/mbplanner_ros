@@ -231,7 +231,7 @@ bool SensorParams::loadParams(std::string ns) {
   param_name = ns + "/sensor_list";
   ros::param::get(param_name, parse_str_list);
   if (parse_str_list.size() <= 0) {
-    ROSPARAM_ERROR(param_name);
+    ROSPARAM_WARN(param_name, "[]");
     return false;
   }
   sensor_list = parse_str_list;
@@ -241,7 +241,7 @@ bool SensorParams::loadParams(std::string ns) {
     if (spb.loadParams(sensor_ns)) {
       sensor.emplace(std::make_pair(*it, spb));
     } else {
-      ROSPARAM_ERROR(sensor_ns);
+      ROSPARAM_WARN(sensor_ns, "");
       return false;
     }
   }
