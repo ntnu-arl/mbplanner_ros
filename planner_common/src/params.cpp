@@ -844,6 +844,7 @@ bool MBParams::loadParams(std::string ns) {
     str_tmp += exp_sensor_list[i] + ", ";
   }
   ROSPARAM_INFO(str_tmp);
+  return true;
 }
 
 bool RobotDynamicsParams::loadParams(std::string ns) {
